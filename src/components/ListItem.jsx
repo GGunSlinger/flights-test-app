@@ -10,14 +10,8 @@ const ListItem = ({ element}) => {
     moment.locale('ru');
     const {
         carrier,
-        exchange,
-        international,
-        isTripartiteContractDiscountApplied,
         legs,
         price,
-        refund,
-        seats,
-        servicesStatuses,
     } = element.flight
 
     const item = <div className='item_main_content'>

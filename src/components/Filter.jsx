@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { Box, Checkbox, TextField } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import './css/Filter.css'
 
 const Filter = ({
@@ -28,8 +27,6 @@ const Filter = ({
     const handleChangeSort = (event) => {
         setSort(event.target.value)
     };
-
-    console.log(filterByAirlines)
 
     const handleChangeCheckbox = (event) => {
         let filteredAirlines = event.target.checked
@@ -56,8 +53,6 @@ const Filter = ({
         if (isNaN(+value)) value = 0
         setLowestPriceRange(+value)
     }
-
-    console.log(airlines)
 
     return (
         <div className='filter_wrap' >
