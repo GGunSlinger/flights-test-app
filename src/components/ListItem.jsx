@@ -1,20 +1,23 @@
-import { Box, Typography } from '@material-ui/core'
+import { Box, Typography, withStyles } from '@material-ui/core'
 import moment from 'moment'
 import 'moment/locale/ru'
 import React from 'react'
-import './css/ListItem.css'
+import styles from './css/ListStyle'
 import getTimeFromMins from '../utils/minutesToHours'
 
-const ListItem = ({ element }) => {
+const ListItem = ({ element, classes }) => {
 
     moment.locale('ru');
+
+    console.log(classes)
+
     const {
         carrier,
         legs,
         price,
     } = element.flight
 
-    const item = <div className='item_main_content'>
+    const item = <div className={classes.item_main_content}>
         {legs.map(element => {
             return element.segments.map((segment, index) => {
 
@@ -31,45 +34,45 @@ const ListItem = ({ element }) => {
 
                 return (
                     <Box borderBottom='2px solid #0087C9' p='5px 0' key={index}>
-                        <div className='derection'>
+                        <div className={classes.derection}>
                             <div>
-                                <Typography>
+                                <p>
                                     {`${segment.departureCity !== undefined && segment.departureCity.caption},
                                     ${segment.departureAirport.caption}`}
-                                    <span className='blue_text'>({segment.departureAirport.uid})</span>
-                                </Typography>
+                                    <span className={classes.blue_text}>({segment.departureAirport.uid})</span>
+                                </p>
                             </div>
                             <Box margin="0 10px">
                                 <img style={{ width: '20px' }} src="./arrow-right.svg" alt="" />
                             </Box>
                             <div>
-                                <Typography>
+                                <p>
                                     {`${segment.arrivalCity !== undefined && segment.arrivalCity.caption},
                                     ${segment.arrivalAirport.caption}`}
-                                    <span className='blue_text'>({segment.arrivalAirport.uid})</span>
-                                </Typography>
+                                    <span className={classes.blue_text}>({segment.arrivalAirport.uid})</span>
+                                </p>
                             </div>
                         </div>
-                        <div className='date_box'>
+                        <div className={classes.date_box}>
                             <Box width='40%'>
-                                <Typography>
-                                    <span className='text_time'>{departureTime} </span>
-                                    <span className='blue_text'>{departureDay} {departureDayOfWeek}</span>
-                                </Typography>
+                                <p>
+                                    <span className={classes.text_time}>{departureTime} </span>
+                                    <span className={classes.blue_text}>{departureDay} {departureDayOfWeek}</span>
+                                </p>
                             </Box>
                             <Box width='20%'>
                                 <Typography align='center' variant='h5'>{getTimeFromMins(diffirence)}</Typography>
                             </Box>
                             <Box width='40%'>
                                 <Typography align='right'>
-                                    <span className='blue_text'>{arrivalDay} {arrivalDayOfWeek}</span>
-                                    <span className='text_time'> {arrivalTime}</span>
+                                    <span className={classes.blue_text}>{arrivalDay} {arrivalDayOfWeek}</span>
+                                    <span className={classes.text_time}> {arrivalTime}</span>
                                 </Typography>
                             </Box>
                         </div>
                         <Box display='flex' justifyContent='center'>
-                            <div className='stops_box'>
-                                {segment.stops > 0 && <div className='stops_box_text'>1 пересадка</div>}
+                            <div className={classes.stops_box}>
+                                {segment.stops > 0 && <div className={classes.stops_box_text}>1 пересадка</div>}
                             </div>
                         </Box>
                         <Box p='5px 10%'>
@@ -82,22 +85,22 @@ const ListItem = ({ element }) => {
     </div>
 
     return (
-        <div className='item_wrap'>
-            <div className='header'>
+        <div className={classes.item_wrap}>
+            <div className={classes.header}>
                 <div>
                     <p>{carrier.caption}</p>
                 </div>
                 <div>
-                    <p className='header_text_total-amount'>
+                    <p className={classes.header_text_total}>
                         {price.total.amount} {price.total.currency}
                     </p>
                     <p>Стоимость для 1 взрослого поссажира</p>
                 </div>
             </div>
             {item}
-            <div className='button' >Выбрать</div>
+            <div className={classes.button} >Выбрать</div>
         </div>
     );
 }
 
-export default ListItem
+export default withStyles(styles)(ListItem)

@@ -4,9 +4,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import { Box, Checkbox, TextField } from '@material-ui/core';
+import { Box, Checkbox, TextField, withStyles } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
-import './css/Filter.css'
+import styles from './css/ListStyle'
 
 const Filter = ({
     sort,
@@ -16,7 +16,8 @@ const Filter = ({
     setLowestPriceRange,
     setHighestPriceRange,
     airlines,
-    setPage }) => {
+    setPage, 
+    classes }) => {
 
     const [state, setState] = useState({});
 
@@ -37,15 +38,9 @@ const Filter = ({
         setPage(1)
     }
 
-    // const handleChangeCheckbox = (event) => {
-    //     setChecked(event.target.checked)
-    //     setFilterByCity([event.target.value, ...filterByCity])
-    // };
-
     const inputHighestPrice = (event) => {
         let value = event.target.value.replace(/\s/g, '')
-        if (isNaN(+value)) value = 200000
-        if (value.length === 0) value = 200000
+        if (value.length === 0 || isNaN(+value) || value.length < 5) value = 200000
         setHighestPriceRange(+value)
     }
     const inputLowesttPrice = (event) => {
@@ -55,7 +50,7 @@ const Filter = ({
     }
 
     return (
-        <div className='filter_wrap' >
+        <div className={classes.filter_wrap} >
             <FormControl component="fieldset">
                 <FormLabel component="legend">Сортировать</FormLabel>
                 <RadioGroup aria-label="Сортировать" name="Сортировка" value={sort} onChange={handleChangeSort}>
@@ -67,12 +62,12 @@ const Filter = ({
             <Box>
                 <p>Цена</p>
                 <Box display='flex'>
-                    <p style={{ margin: '5px 10px 0 0' }}>от</p>
-                    <TextField id="standard-search" onChange={inputLowesttPrice} type="search" />
+                    <p style={{ margin: '10px 10px 0 0' }}>от</p>
+                    <TextField id="standard-search" onChange={inputLowesttPrice} defaultValue={0} type="search" />
                 </Box>
                 <Box display='flex' mt='10px'>
-                    <p style={{ margin: '5px 10px 0 0' }}>до</p>
-                    <TextField id="standard-search" onChange={inputHighestPrice} type="search" />
+                    <p style={{ margin: '10px 10px 0 0' }}>до</p>
+                    <TextField id="standard-search" onChange={inputHighestPrice} defaultValue={200000} type="search" />
                 </Box>
             </Box>
             <Box mt='20px'>
@@ -92,4 +87,4 @@ const Filter = ({
     );
 }
 
-export default Filter
+export default withStyles(styles)(Filter)
