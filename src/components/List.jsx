@@ -7,6 +7,7 @@ import Filter from './Filter';
 const List = () => {
 
     const [data, setData] = useState(null)
+    const [filteredData, setFilteredData] = useState([])
     const [page, setPage] = useState(1)
     const [sort, setSort] = useState('asc');
     const [render, setRender] = useState(false);
@@ -14,6 +15,8 @@ const List = () => {
     const [lowestPriceRange, setLowestPriceRange] = useState(0);
     const [highestPriceRange, setHighestPriceRange] = useState(200000);
     const [airlines, setAirLines] = useState('');
+
+    // flight.price.total.amount
 
     const sortedBy = (arr, sortedBy) => {
         let data
@@ -50,25 +53,29 @@ const List = () => {
             sortedBy(loadData.result.flights, sort)
         } catch (e) {
             console.log(e)
-        } //eslint-disable-next-line
-    }, [])
+        }
+    }, [])  // eslint-disable-line
+ 
+    useEffect(() => {
+        data !== null && sortedBy(data, sort)
+    }, [sort]) // eslint-disable-line
 
     useEffect(() => {
-        data !== null && sortedBy(data, sort) //eslint-disable-next-line
-    }, [sort])
+        if (data) {
+            let result = data.filter((e, i) => {
+                let priceRange = e.flight.price.total.amount >= lowestPriceRange && e.flight.price.total.amount <= highestPriceRange
+                if (filterByAirlines.length > 0) {
+                    let compare = filterByAirlines.find(element => element === e.flight.carrier.caption)
+                    return priceRange && compare
+                }
+                return priceRange
+            })
+                .filter((e, i) => i <= page)
+            setFilteredData(result)
+        }
+    }, [data, filterByAirlines, sort, lowestPriceRange, highestPriceRange, page])
 
-    const filteredData = (data && data
-        .filter((e, i) => {
-            let priceRange = e.flight.price.total.amount >= lowestPriceRange && e.flight.price.total.amount <= highestPriceRange
-            if (filterByAirlines.length > 0) {
-                let compare = filterByAirlines.find(element => element === e.flight.carrier.caption) 
-                return priceRange && compare
-            }
-            return priceRange
-        })
-        .filter((e, i) => i <= page)
-    )
-
+    console.log(filteredData.length, page)
 
     return (
         <>
@@ -85,10 +92,13 @@ const List = () => {
                 />
                 <Box>
                     {filteredData && filteredData.map((element, index) => {
-                        return <ListItem element={element} key={index}/>
+                        return <ListItem element={element} key={index} />
                     })}
-                    <Box display='flex' justifyContent='center'>
-                        <Button variant="contained" onClick={() => setPage(page + 2)}>показать еще</Button>
+                    <Box display='flex' justifyContent='center' mb='40px'>
+                        {filteredData.length > page 
+                            ?  <Button variant="contained" onClick={() => setPage(page + 2)}>показать еще</Button>
+                            : <p>Конец списка</p>
+                        }
                     </Box>
                 </Box>
             </Box>
