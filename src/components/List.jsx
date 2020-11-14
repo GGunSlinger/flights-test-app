@@ -3,7 +3,6 @@ import ListItem from './ListItem';
 import flights from '../data/flights.json'
 import { Box, Button } from '@material-ui/core';
 import Filter from './Filter';
-import { reduce } from 'lodash';
 
 const List = () => {
 
@@ -15,8 +14,6 @@ const List = () => {
     const [lowestPriceRange, setLowestPriceRange] = useState(0);
     const [highestPriceRange, setHighestPriceRange] = useState(200000);
     const [airlines, setAirLines] = useState('');
-
-    // flight.price.total.amount
 
     const sortedBy = (arr, sortedBy) => {
         let data
@@ -53,14 +50,14 @@ const List = () => {
             sortedBy(loadData.result.flights, sort)
         } catch (e) {
             console.log(e)
-        }
+        } //eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        data !== null && sortedBy(data, sort)
+        data !== null && sortedBy(data, sort) //eslint-disable-next-line
     }, [sort])
 
-    const filteredData = data && data
+    const filteredData = (data && data
         .filter((e, i) => {
             let priceRange = e.flight.price.total.amount >= lowestPriceRange && e.flight.price.total.amount <= highestPriceRange
             if (filterByAirlines.length > 0) {
@@ -70,6 +67,8 @@ const List = () => {
             return priceRange
         })
         .filter((e, i) => i <= page)
+    )
+
 
     return (
         <>

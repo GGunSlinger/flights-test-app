@@ -20,6 +20,7 @@
 .derection {
     display: flex;
     border-bottom: 1px solid #CDCDCD;
+    justify-content: center;
     padding: 10px 0 15px 20px;
     margin: 0 10px;
 }

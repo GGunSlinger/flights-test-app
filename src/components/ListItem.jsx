@@ -1,11 +1,11 @@
-import { Box } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import moment from 'moment'
 import 'moment/locale/ru'
 import React from 'react'
 import './css/ListItem.css'
 import getTimeFromMins from '../utils/minutesToHours'
 
-const ListItem = ({ element}) => {
+const ListItem = ({ element }) => {
 
     moment.locale('ru');
     const {
@@ -15,7 +15,7 @@ const ListItem = ({ element}) => {
     } = element.flight
 
     const item = <div className='item_main_content'>
-        {legs.map((element, index) => {
+        {legs.map(element => {
             return element.segments.map((segment, index) => {
 
                 let format = 'YYYY-MM-DD HH:mm:ss'
@@ -33,38 +33,38 @@ const ListItem = ({ element}) => {
                     <Box borderBottom='2px solid #0087C9' p='5px 0' key={index}>
                         <div className='derection'>
                             <div>
-                                <p>
+                                <Typography>
                                     {`${segment.departureCity !== undefined && segment.departureCity.caption},
                                     ${segment.departureAirport.caption}`}
                                     <span className='blue_text'>({segment.departureAirport.uid})</span>
-                                </p>
+                                </Typography>
                             </div>
                             <Box margin="0 10px">
-                                <img style={{ width: '20px', }} src="./arrow-right.svg" alt="" />
+                                <img style={{ width: '20px' }} src="./arrow-right.svg" alt="" />
                             </Box>
                             <div>
-                                <p>
+                                <Typography>
                                     {`${segment.arrivalCity !== undefined && segment.arrivalCity.caption},
                                     ${segment.arrivalAirport.caption}`}
                                     <span className='blue_text'>({segment.arrivalAirport.uid})</span>
-                                </p>
+                                </Typography>
                             </div>
                         </div>
                         <div className='date_box'>
-                            <Box width='40%' display='flex' justifyContent='start'>
-                                <p>
+                            <Box width='40%'>
+                                <Typography>
                                     <span className='text_time'>{departureTime} </span>
                                     <span className='blue_text'>{departureDay} {departureDayOfWeek}</span>
-                                </p>
+                                </Typography>
                             </Box>
-                            <Box width='20%' display='flex' justifyContent='center' alignItems='center'>
-                                {getTimeFromMins(diffirence)}
+                            <Box width='20%'>
+                                <Typography align='center' variant='h5'>{getTimeFromMins(diffirence)}</Typography>
                             </Box>
-                            <Box width='40%' display='flex' justifyContent='end'>
-                                <p>
+                            <Box width='40%'>
+                                <Typography align='right'>
                                     <span className='blue_text'>{arrivalDay} {arrivalDayOfWeek}</span>
                                     <span className='text_time'> {arrivalTime}</span>
-                                </p>
+                                </Typography>
                             </Box>
                         </div>
                         <Box display='flex' justifyContent='center'>
