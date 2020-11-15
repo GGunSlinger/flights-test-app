@@ -60,7 +60,8 @@ const ListItem = ({ element, classes }) => {
                                     <span className={classes.blue_text}>{departureDay} {departureDayOfWeek}</span>
                                 </p>
                             </Box>
-                            <Box width='20%'>
+                            <Box width='20%' display='flex' alignItems='center'>
+                                <img style={{ width: '20px', margin: '5px 5px 0 0'}} src="./clock.svg" alt="" />
                                 <Typography align='center' variant='h5'>{getTimeFromMins(diffirence)}</Typography>
                             </Box>
                             <Box width='40%'>

@@ -6,7 +6,7 @@ import { Box, Button } from '@material-ui/core'
 import Filter from './Filter';
 import ListItem from './ListItem';
 
-const List = ({}) => {
+const List = () => {
 
     const [data, setData] = useState(null)
     const [filteredData, setFilteredData] = useState([])
