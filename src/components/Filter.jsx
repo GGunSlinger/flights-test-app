@@ -7,6 +7,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { Box, Checkbox, TextField, withStyles } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
 import styles from './css/ListStyle'
+import debounce from '../utils/debounce'
 
 const Filter = ({
     sort,
@@ -16,10 +17,15 @@ const Filter = ({
     setLowestPriceRange,
     setHighestPriceRange,
     airlines,
-    setPage, 
+    setPage,
     classes }) => {
 
     const [state, setState] = useState({});
+    // Задержка запросов для поиска
+    const callLow = value => setLowestPriceRange(value)
+    const callHigh= value => setHighestPriceRange(value)
+    const [debouncedCallLow] = useState(() => debounce(value => callLow(value), 50))
+    const [debouncedCallHigh] = useState(() => debounce(value => callHigh(value), 50))
 
     useEffect(() => {
         setState(airlines)
@@ -41,12 +47,12 @@ const Filter = ({
     const inputHighestPrice = (event) => {
         let value = event.target.value.replace(/\s/g, '')
         if (value.length === 0 || isNaN(+value) || value.length < 5) value = 200000
-        setHighestPriceRange(+value)
+        debouncedCallHigh(+value)
     }
     const inputLowesttPrice = (event) => {
         let value = event.target.value.replace(/\s/g, '')
         if (isNaN(+value)) value = 0
-        setLowestPriceRange(+value)
+        debouncedCallLow(+value)
     }
 
     return (
