@@ -9,8 +9,6 @@ const ListItem = ({ element, classes }) => {
 
     moment.locale('ru');
 
-    console.log(classes)
-
     const {
         carrier,
         legs,

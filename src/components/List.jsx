@@ -77,8 +77,6 @@ const List = () => {
         }
     }, [data, filterByAirlines, sort, lowestPriceRange, highestPriceRange, page])
 
-    console.log(filteredData.length, page)
-
     return (
         <>
             <Box display='flex'>
